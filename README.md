@@ -31,10 +31,13 @@ Setup cluster networking (using weaveworks, for no particular reason other than 
 
 ### On client machines:
 run the join command given by the master.
-kubeadm join host:port --token TOKEN --discovery-token-ca-cert-hash hash
+
+`kubeadm join host:port --token TOKEN --discovery-token-ca-cert-hash hash`
 
 
-cluster level work:
+# cluster level work:
+
+## Admin interfaces
 If you want to use cabin for admin:
 ```shell
 kubectl create serviceaccount "cabin-access"
@@ -45,6 +48,17 @@ kubectl describe secret "cabin-access-token-XXXXX"
 # use the token in cabin.
 ```
 
-kubectl create -f pv-iscsi.yml
-kubectl create -f pvc-iscsi.yml
+## MariaDB
+### Setup persistent storage for the database
+kubectl create -f pv-iscsi-db.yml
+kubectl create -f pvc-iscsi-db.yml
+
+### Setup db password as a secret
 kubectl create secret generic mariadb-pass --from-literal=password=<PASSWORD>
+
+## Django
+### Setup persistent storage for the static content (and user provided files)
+kubectl create -f pv-iscsi-static.yml
+kubectl create -f pvc-iscsi-static.yml
+
+### Setup ingress with SSL

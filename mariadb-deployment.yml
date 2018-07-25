@@ -1,46 +1,51 @@
-apiVersion: apps/v1beta2
+apiVersion: apps/v1
 kind: Deployment
 metadata:
   name: mariadb-deployment
+  labels:
+    app: lbwreg
 spec:
   replicas: 1
   selector:
     matchLabels:
-      app: mariadb-container
+      app: lbwreg
+      tier: mariadb
+  strategy: 
+    type: Recreate
   template:
     metadata:
       labels:
-        app: mariadb-container
-        tier: backend
+        app: lbwreg
+        tier: mariadb
     spec:
       containers:
-        - name: mariadb-container
-          image: 'bitnami/mariadb:latest'
-          env:
-            - name: MARIADB_ROOT_PASSWORD
-              valueFrom:
-                secretKeyRef:
-                  name: mariadb-root-pass
-                  key: password
-            - name: MARIADB_PASSWORD
-              valueFrom:
-                secretKeyRef:
-                  name: mariadb-credentials
-                  key: password
-            - name: MARIADB_USER
-              valueFrom:
-                secretKeyRef:
-                  name: mariadb-credentials
-                  key: user
-            - name: MARIADB_DATABASE
-              value: lbw
-
-          ports:
-            - containerPort: 3306
-          volumeMounts:
-            - name: mariadb-volume-mount
-              mountPath: /bitnami/
+      - image: bitnami/mariadb:latest
+        name: mariadb-container
+        env:
+        - name: MARIADB_ROOT_PASSWORD
+          valueFrom:
+            secretKeyRef:
+              name: mariadb-root-pass
+              key: password
+        - name: MARIADB_PASSWORD
+          valueFrom:
+            secretKeyRef:
+              name: mariadb-credentials
+              key: password
+        - name: MARIADB_USER
+          valueFrom:
+            secretKeyRef:
+              name: mariadb-credentials
+              key: user
+        - name: MARIADB_DATABASE
+          value: lbw
+        ports:
+          - containerPort: 3306
+            name: mariadb
+        volumeMounts:
+          - name: mariadb-volume-mount
+            mountPath: /bitnami/
       volumes:
-        - name: postgres-volume-mount
-          persistentVolumeClaim:
-		claimName: pvc-db
+      - name: mariadb-volume-mount
+        persistentVolumeClaim:
+          claimName: nfs-db

@@ -1,0 +1,16 @@
+kind: PersistentVolume
+apiVersion: v1
+metadata:
+  name: nfs-db
+  labels:
+    type: nfs
+spec:
+  storageClassName: nfs
+  capacity:
+    storage: 6Gi
+  accessModes:
+    - ReadWriteMany
+  persistentVolumeReclaimPolicy: Retain
+  nfs:
+    path: REMOTE_PATH
+    server: REMOTE_HOST

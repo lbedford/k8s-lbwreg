@@ -4,12 +4,12 @@ metadata:
   name: pv-db
 spec:
   capacity:
-    storage: 20G
+    storage: 20Gi
   accessModes:
     - ReadWriteOnce
   iscsi:
-     targetPortal: portal-hostname:3260
-     iqn: iqn
+     targetPortal: photo.dmz.lbedford.org:3260
+     iqn: iqn.2000-01.com.synology:photo.Target-1.0addc6d183
      lun: 0
      fsType: 'ext4'
      readOnly: false

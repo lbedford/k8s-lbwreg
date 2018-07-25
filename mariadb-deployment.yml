@@ -1,0 +1,46 @@
+apiVersion: apps/v1beta2
+kind: Deployment
+metadata:
+  name: mariadb-deployment
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: mariadb-container
+  template:
+    metadata:
+      labels:
+        app: mariadb-container
+        tier: backend
+    spec:
+      containers:
+        - name: mariadb-container
+          image: 'bitnami/mariadb:latest'
+          env:
+            - name: MARIADB_ROOT_PASSWORD
+              valueFrom:
+                secretKeyRef:
+                  name: mariadb-root-pass
+                  key: password
+            - name: MARIADB_PASSWORD
+              valueFrom:
+                secretKeyRef:
+                  name: mariadb-credentials
+                  key: password
+            - name: MARIADB_USER
+              valueFrom:
+                secretKeyRef:
+                  name: mariadb-credentials
+                  key: user
+            - name: MARIADB_DATABASE
+              value: lbw
+
+          ports:
+            - containerPort: 3306
+          volumeMounts:
+            - name: mariadb-volume-mount
+              mountPath: /bitnami/
+      volumes:
+        - name: postgres-volume-mount
+          persistentVolumeClaim:
+		claimName: pvc-db

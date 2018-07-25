@@ -1,0 +1,7 @@
+apiVersion: v1
+kind: Secret
+metadata:
+  name: mariadb-root-pass
+type: Opaque
+data:
+  password: $(echo PASSWORD | base64)

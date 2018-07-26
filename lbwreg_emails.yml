@@ -1,7 +1,7 @@
 apiVersion: v1
 kind: Secret
 metadata:
-  name: lbwreg_emails
+  name: lbwreg-emails
 type: Opaque
 data:
   admin_name: TGlhbSBCZWRmb3JkCg==

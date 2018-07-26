@@ -1,0 +1,9 @@
+apiVersion: v1
+kind: Secret
+metadata:
+  name: lbwreg_details
+type: Opaque
+data:
+  debug: VHJ1ZQo=
+  allowed_host: cmVnLmxpbnV4YmllcndhbmRlcnVuZy5jb20K
+  secret_key: OWVeXygjYnB6Kl5rcDIrMkB0ZXYoNyVlNTcqISMhKHkwPWY3dTMtZitndDVsYzUtZWUK

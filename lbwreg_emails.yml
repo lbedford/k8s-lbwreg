@@ -1,0 +1,12 @@
+apiVersion: v1
+kind: Secret
+metadata:
+  name: lbwreg_emails
+type: Opaque
+data:
+  admin_name: TGlhbSBCZWRmb3JkCg==
+  admin_email: bGJ3cmVnQGxiZWRmb3JkLm9yZwo=
+  default_from_email: bGJ3QGRyYWlvY2h0Lm5ldAo=
+  server_email: bGJ3QGRyYWlvY2h0Lm5ldAo=
+  lbw_to_email: bGludXhiaWVyd2FuZGVydW5nQGdvb2dsZWdyb3Vwcy5jb20K
+  lbw_from_email: bGJ3QGRyYWlvY2h0Lm5ldAo=

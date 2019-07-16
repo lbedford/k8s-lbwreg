@@ -17,7 +17,12 @@ apt install -y \
   kubelet \
   kubeadm \
   kubernetes-cni \
-  docker-ce
+  docker-ce \
+  open-iscsi \
+  nfs-common \
+  rpcbind \
+  logwatch \
+  unattended-upgrades
 ```
 
 ### On master machine:
@@ -50,11 +55,14 @@ kubectl describe secret "cabin-access-token-XXXXX"
 
 ## MariaDB
 ### Setup persistent storage for the database
-kubectl create -f pv-iscsi-db.yml
-kubectl create -f pvc-iscsi-db.yml
+kubectl create -f pv-nfs-db.yml
+kubectl create -f pvc-nfs-db.yml
 
-### Setup db password as a secret
-kubectl create secret generic mariadb-pass --from-literal=password=<PASSWORD>
+### Setup db root password as a secret
+kubectl create -f mariadb-root-pass.yml
+
+### Setup db user/passwordas a secret
+kubectl create -f mariadb-credentials.yml
 
 ## Django
 ### Setup persistent storage for the static content (and user provided files)
